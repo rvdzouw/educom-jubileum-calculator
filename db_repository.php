@@ -13,43 +13,56 @@
             throw new Exception("Can not connect to database. Error: " . mysqli_connect_error());
         }
         return $conn;
-        }
-
-        function closeDB($conn){
-            mysqli_close($conn);
     }
 
-    function findUserByID($id) {
+    function findUserByName($name) {
         $conn = connectToDatabase();
         try {
-            $id = mysqli_real_escape_string($conn, $id);
-            $sql = "SELECT * FROM users WHERE id=$id";
+            $name = mysqli_real_escape_string($conn, $name);
+            $sql = "SELECT * FROM people WHERE name=$name";
             $result = mysqli_query($conn, $sql);
             if ($result == false) {
                 throw new Exception("Query failed, SQL: " . $sql . " Error: " . mysqli_error($conn));
             }
-            $user = mysqli_fetch_assoc($result);
-            return $user; 
+            $person = mysqli_fetch_assoc($result);
+            return $person; 
         }
         finally {
             closeDB($conn);
         }
     }
 
-    function saveNewPerson($name, $birthdate) {
+    function updatePeopleList($name, $birthdate) {
         $conn = connectToDatabase();
-        try {
+        try{
             $name = mysqli_real_escape_string($conn, $name);
-            $birthdate = mysqli_real_escape_string($conn, $birthdate);        
-    
-            $sql = "INSERT INTO users (name, birthdate) VALUES ('$name', '$birthdate',)";
-        
+            $birthdate = mysqli_real_escape_string($conn, $birthdate);
+            $sql = "INSERT INTO people (name, birthdate) VALUES ('$name', '$birthdate')";
+            
+            mysqli_query($conn, $sql);
             if (!mysqli_query($conn, $sql)) {
                 throw new Exception("Query failed, SQL: " . $sql . "Error: " . mysqli_error($conn));
             }
-            
         }
         finally {
-            closeDB($conn);
+            mysqli_close($conn);
         }
+    }
+
+    function showPeopleList() {
+        $conn = connectToDatabase();
+        
+        $sql = "SELECT  name, birthdate FROM people";
+        $result = mysqli_query($conn, $sql);
+        
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+                echo $row["name"]. " " . $row["birthdate"]. "<br>";
+            }
+        } else {
+            echo "0 results";
+        }
+        
+        mysqli_close($conn);
     }

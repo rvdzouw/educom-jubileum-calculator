@@ -13,3 +13,6 @@ input.birthdate {
 h1 {
     text-align: center;
 }
+span.error {
+    color: red;
+}
