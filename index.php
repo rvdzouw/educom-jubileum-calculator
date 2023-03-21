@@ -18,7 +18,7 @@ function  processRequest() {
 
 function showDocStart() {
     echo   '<!DOCTYPE html>
-    <html lang="NL">
+    <html lang="NL-nl">
     <head>
     <link rel="stylesheet" href="mystyle.css">
     <title>Jubileum calculator</title>
@@ -51,8 +51,11 @@ function showResponsePage($data) {
 
 function showBodysection($data) {
     echo '<h1>Jubileum Calculator</h1>';
+    echo '<table>';
+    echo '<tr><th>Naam</th><th>Geboortedatum</th></tr>';
     showPeopleList();
     showEntryForm($data);
+    echo '</table>';
 }
 
 

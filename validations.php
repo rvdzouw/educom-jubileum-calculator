@@ -19,7 +19,7 @@
             } else {
                 $birthdate=test_input(getPostVar('birthdate'));                
             }
-            if ($nameErr === "" && $birthdateErr === ""); {
+            if ($nameErr === "" && $birthdateErr === "") {
                 $valid = true;
             }
         }

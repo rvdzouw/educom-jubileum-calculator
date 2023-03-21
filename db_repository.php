@@ -39,7 +39,6 @@
             $birthdate = mysqli_real_escape_string($conn, $birthdate);
             $sql = "INSERT INTO people (name, birthdate) VALUES ('$name', '$birthdate')";
             
-            mysqli_query($conn, $sql);
             if (!mysqli_query($conn, $sql)) {
                 throw new Exception("Query failed, SQL: " . $sql . "Error: " . mysqli_error($conn));
             }
@@ -52,17 +51,27 @@
     function showPeopleList() {
         $conn = connectToDatabase();
         
-        $sql = "SELECT  name, birthdate FROM people";
+        $sql = "SELECT * FROM people";
         $result = mysqli_query($conn, $sql);
         
         if (mysqli_num_rows($result) > 0) {
             // output data of each row
             while($row = mysqli_fetch_assoc($result)) {
-                echo $row["name"]. " " . $row["birthdate"]. "<br>";
+                echo '<tr>
+                        <td>' . $row["name"]. '</td>
+                        <td>' . $row["birthdate"]. '</td>
+                        <td><input type="checkbox" value="' . $row["id"] . '"></td>
+                      </tr>';
             }
         } else {
             echo "0 results";
         }
         
         mysqli_close($conn);
+    }
+
+    function removePeopleFromList() {
+        $conn = connectToDatabase();
+
+        $sql = "DELETE * FROM people WHERE id"
     }

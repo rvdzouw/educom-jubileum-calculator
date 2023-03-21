@@ -1,17 +1,11 @@
-label.birthdate {
-    position: relative;
-    left:135px;
-}
-input.birthdate {
-    position: relative;
-    left:30px;
-}
-#submit {
-    position: relative;
-    left:30px;
-}
 h1 {
     text-align: center;
+}
+table{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    
 }
 span.error {
     color: red;
