@@ -3,6 +3,7 @@
 require_once('form.php');
 require_once('db_repository.php');
 require_once('validations.php');
+require_once('delete.php');
 
 $page = getRequestedPage();
 $data = processRequest($page);
@@ -55,6 +56,7 @@ function showBodysection($data) {
     echo '<tr><th>Naam</th><th>Geboortedatum</th></tr>';
     showPeopleList();
     showEntryForm($data);
+    showDeleteButton();
     echo '</table>';
 }
 

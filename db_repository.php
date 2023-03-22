@@ -61,17 +61,32 @@
                         <td>' . $row["name"]. '</td>
                         <td>' . $row["birthdate"]. '</td>
                         <td><input type="checkbox" value="' . $row["id"] . '"></td>
-                      </tr>';
+                     </tr>';
+                
             }
-        } else {
-            echo "0 results";
         }
+        // } else {
+        //     echo "0 results";
+        // }
         
         mysqli_close($conn);
     }
-
-    function removePeopleFromList() {
+    function showPeopleCheckbox() {
         $conn = connectToDatabase();
-
-        $sql = "DELETE * FROM people WHERE id"
+        
+        $sql = "SELECT id FROM people";
+        $result = mysqli_query($conn, $sql);
+        
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+                echo $row["id"];
+                
+            }
+        }
+        // } else {
+        //     echo "0 results";
+        // }
+        
+        mysqli_close($conn);
     }
