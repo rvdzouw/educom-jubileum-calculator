@@ -37,7 +37,9 @@
         try{
             $name = mysqli_real_escape_string($conn, $name);
             $birthdate = mysqli_real_escape_string($conn, $birthdate);
-            $sql = "INSERT INTO people (name, birthdate) VALUES ('$name', '$birthdate')";
+            $date = date_create($birthdate);
+            $date = date_format($date,"d-m-Y");
+            $sql = "INSERT INTO people (name, birthdate) VALUES ('$name', '$date')";
             
             if (!mysqli_query($conn, $sql)) {
                 throw new Exception("Query failed, SQL: " . $sql . "Error: " . mysqli_error($conn));
@@ -60,7 +62,7 @@
                 echo '<tr>
                         <td>' . $row["name"]. '</td>
                         <td>' . $row["birthdate"]. '</td>
-                        <td><input type="checkbox" value="' . $row["id"] . '"></td>
+                        <td><input type="checkbox" name="todelete[]" value="' . $row["id"] . '"></td>
                      </tr>';
                 
             }
