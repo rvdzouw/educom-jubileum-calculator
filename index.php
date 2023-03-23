@@ -24,6 +24,10 @@ function  processRequest($action) {
             deletePerson($userid); 
             }       
         break;
+        case 'deleteall' :
+            $data = array("name" => '', "birthdate" => '', "nameErr" => '', "birthdateErr" => '', "valid" => false);
+            deleteAllData();
+        break;
         default: $data = array("name" => '', "birthdate" => '', "nameErr" => '', "birthdateErr" => '', "valid" => false);
     }
     return $data;
@@ -75,6 +79,7 @@ function showBodysection($data) {
     echo '<form method="post" action="index.php">';
     showPeopleList();
     showDeleteButton();
+    showDeleteAll();
     showEntryForm($data);
     echo '</table>';
 }

@@ -31,6 +31,16 @@
               </form>
             </td>
            <tr>';
-    }  
-
+    }
+    
+    function showDeleteAll() {
+        echo '<form method="post" action="index.php">
+                <tr>
+                <td></td><td></td><td>
+                  <input type="hidden" value="deleteall" name="action">
+                  <input type="submit"value="Allen verwijderen"
+                </td>
+                </tr>
+              </form>';                
+    }
 ?>

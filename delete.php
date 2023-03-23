@@ -1,21 +1,22 @@
 <?php
 
 function deletePerson($userid) {
-$conn = connectToDatabase();
+    $conn = connectToDatabase();
 
-//Define the query
-$sql = "DELETE FROM people WHERE id=$userid";
+    //Define the query
+    $sql = "DELETE FROM people WHERE id=$userid";
 
-//sends the query to delete the entry
-$result = mysqli_query($conn, $sql);
+    //sends the query to delete the entry
+    mysqli_query($conn, $sql);
+}
 
-// if (mysqli_num_rows($result) > 0) { 
-// //if it updated
+function deleteAllData() {
+    $conn = connectToDatabase();
 
-//     echo '<strong>Persoon is verwijderd uit de database</strong><br /><br />';
-//  } else { 
-// //if it failed    
-//     echo '<strong>Verwijderen mislukt</strong><br /><br />';
-//     } 
+    //Define the query
+    $sql= "DELETE FROM people";
+
+    //send the query to delete everything
+    mysqli_query($conn, $sql);
 }
 ?>
