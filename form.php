@@ -3,20 +3,21 @@
     echo '<form method="post" action="index.php">
             <tr>
               <td>
-                <input type="text" name="name" class="name" value="' . $data["name"] . '">
+                <input type="text" name="name" class="name" value="' . getArrayVar($data, "name") . '">
               </td>
               <td>
-                <input type="date" name="birthdate" class="birthdate" value="' . $data["birthdate"] . '">
-                <input name="action" value="submit" type="hidden">
+                <input type="date" name="birthdate" class="birthdate" value="' . getArrayVar($data,"birthdate") . '">
+                <input name="action" value="'.getArrayVar($data, 'action', 'submit').'" type="hidden">
+                <input name="id" value = "'. getArrayVar($data, 'id', 0) . '" type = "hidden">
                 <input name="submit" value="+" type="submit" id="submit"><br>
               </td>
             </tr>
             <tr>
               <td>
-                <span class="error">' . $data["nameErr"] . '</span>
+                <span class="error">' . getArrayVar($data, "nameErr") . '</span>
               </td>
               <td>
-                <span class="error">' . $data["birthdateErr"] . '</span>
+                <span class="error">' . getArrayVar($data, "birthdateErr") . '</span>
               </td>
             </tr>
         </form><br>'; 
@@ -30,7 +31,7 @@
               <input type="submit" value="Verwijderen">
               </form>
             </td>
-           <tr>';
+           </tr>';
     }
     
     function showDeleteAll() {
@@ -42,5 +43,5 @@
                 </td>
                 </tr>
               </form>';                
-    }
+    }           
 ?>

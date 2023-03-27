@@ -3,11 +3,12 @@
 require_once('form.php');
 require_once('db_repository.php');
 require_once('validations.php');
-require_once('delete.php');
+require_once('user_service.php');
+require_once('layout.php');
 
 $page = getRequestedPage();
 $action = getRequestedAction();
-$data = processRequest($action);
+$data = processRequest($action, $page);
 showResponsepage($data);
 
 function  processRequest($action) {
@@ -17,7 +18,13 @@ function  processRequest($action) {
             if ($data['valid']) {
                 savePersonToList($data['name'], $data['birthdate']);     
             }
-        break;    
+        break;
+        case 'edit' :
+            $id = getUrlVar("id");
+            $person = findUserByID($id);
+            $data = array("name" => $person['name'], "birthdate" => $person['birthdate'], "nameErr" => '', "birthdateErr" => '', 'id'=>$id, "valid" => false);
+            
+        break;       
         case 'delete' :
             $data = array("name" => '', "birthdate" => '', "nameErr" => '', "birthdateErr" => '', "valid" => false);
             foreach($_POST['todelete'] as $userid) {
@@ -30,31 +37,27 @@ function  processRequest($action) {
         break;
         default: $data = array("name" => '', "birthdate" => '', "nameErr" => '', "birthdateErr" => '', "valid" => false);
     }
+    $data['action'] = $action;
     return $data;
 }    
-function showDocStart() {
-    echo   '<!DOCTYPE html>
-    <html lang="NL-nl">
-    <head>
-    <link rel="stylesheet" href="mystyle.css">
-    <title>Jubileum calculator</title>
-    </head>';
+
+function getArrayVar($array, $key, $default = '') {
+    return isset($array[$key]) ? $array[$key] : $default;
 }
 
-
 function getPostVar($key, $default = '') {
-    return isset($_POST[$key]) ? $_POST[$key] : $default;
+    return getArrayVar($_POST, $key, $default);
 }
 
 function getUrlVar($key, $default = '') {
-    return isset($_GET[$key]) ? $_GET[$key] : $default;
+    return getArrayVar($_GET, $key, $default);
 }
 
 function getRequestedPage() {
     if ($_SERVER["REQUEST_METHOD"] == "POST") { 
-        return getPostVar("page"); 
+        return getPostVar("page", "home"); 
     } else { 
-        return getUrlVar("page"); 
+        return getUrlVar("page", "home"); 
     }
 }
 
@@ -65,37 +68,31 @@ function getRequestedAction() {
     
 }
 
-
 function showResponsePage($data) { 
     showDocStart(); 
+    showPageHead();
     showBodySection($data);
     showDocEnd();
 }
 
 function showBodysection($data) {
-    echo '<h1>Jubileum Calculator</h1>';
-    echo '<table>';
-    echo '<tr><th>Naam</th><th>Geboortedatum</th></tr>';
-    echo '<form method="post" action="index.php">';
-    showPeopleList();
-    showDeleteButton();
-    showDeleteAll();
+    showBodyStart();
+    showHeader();
+    showTableStart();
+    showContent($data);
     showEntryForm($data);
-    echo '</table>';
-}
-
-
-function showDocEnd() {
-    echo '</html>';
-}
-
-function savePersonToList($name, $birthdate) {
-    updatePeopleList($name, $birthdate);
+    showTableEnd();
+    showBodyEnd();
 }
 
 
 
+function showContent($data) {
 
-
+    
+            require_once('home.php');
+            showHomeContent($data);
+            
+}
 
 ?> 

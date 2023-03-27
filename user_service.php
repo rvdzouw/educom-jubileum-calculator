@@ -19,4 +19,10 @@ function deleteAllData() {
     //send the query to delete everything
     mysqli_query($conn, $sql);
 }
+
+function savePersonToList($name, $birthdate) {
+    updatePeopleList($name, $birthdate);
+}
+
+
 ?>

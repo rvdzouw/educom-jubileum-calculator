@@ -15,11 +15,11 @@
         return $conn;
     }
 
-    function findUserByName($name) {
+    function findUserByID($id) {
         $conn = connectToDatabase();
         try {
-            $name = mysqli_real_escape_string($conn, $name);
-            $sql = "SELECT * FROM people WHERE name=$name";
+            $id = mysqli_real_escape_string($conn, $id);
+            $sql = "SELECT * FROM people WHERE id=$id";
             $result = mysqli_query($conn, $sql);
             if ($result == false) {
                 throw new Exception("Query failed, SQL: " . $sql . " Error: " . mysqli_error($conn));
@@ -28,7 +28,7 @@
             return $person; 
         }
         finally {
-            closeDB($conn);
+            mysqli_close($conn);
         }
     }
 
@@ -38,7 +38,7 @@
             $name = mysqli_real_escape_string($conn, $name);
             $birthdate = mysqli_real_escape_string($conn, $birthdate);
             $date = date_create($birthdate);
-            $date = date_format($date,"d-m-Y");
+            $date = date_format($date,"Y-m-d");
             $sql = "INSERT INTO people (name, birthdate) VALUES ('$name', '$date')";
             
             if (!mysqli_query($conn, $sql)) {
@@ -58,33 +58,28 @@
         
         if (mysqli_num_rows($result) > 0) {
             // output data of each row
-            while($row = mysqli_fetch_assoc($result)) {
-                echo '<tr>
-                        <td>' . $row["name"]. '</td>
-                        <td>' . $row["birthdate"]. '</td>
-                        <td><input type="checkbox" name="todelete[]" value="' . $row["id"] . '"></td>
-                     </tr>';
-                
+            while($row = mysqli_fetch_assoc($result)) {  
+                $people[] = $row;                  
             }
         }       
         mysqli_close($conn);
+        return $people;
     }
-    function showPeopleCheckbox() {
-        $conn = connectToDatabase();
+
+    // function showPeopleCheckbox() {
+    //     $conn = connectToDatabase();
         
-        $sql = "SELECT id FROM people";
-        $result = mysqli_query($conn, $sql);
+    //     $sql = "SELECT id FROM people";
+    //     $result = mysqli_query($conn, $sql);
         
-        if (mysqli_num_rows($result) > 0) {
-            // output data of each row
-            while($row = mysqli_fetch_assoc($result)) {
-                echo $row["id"];
+    //     if (mysqli_num_rows($result) > 0) {
+    //         // output data of each row
+    //         while($row = mysqli_fetch_assoc($result)) {
+    //             echo $row["id"];
                 
-            }
-        }
-        // } else {
-        //     echo "0 results";
-        // }
-        
-        mysqli_close($conn);
-    }
+    //         }
+    //     }
+                
+    //     mysqli_close($conn);
+    // }
+?>
