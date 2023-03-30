@@ -10,3 +10,23 @@ table {
 span.error {
     color: red;
 }
+a.button {
+    background-color: #1c87c9;
+    border: none;
+    color: white;
+    padding: 5px 9px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+#submit {
+    position: relative;
+    left: 25px;
+}
+input.birthdate {
+ position:relative;
+ left: 15px;
+}
