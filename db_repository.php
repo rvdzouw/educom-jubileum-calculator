@@ -21,9 +21,9 @@
             $id = mysqli_real_escape_string($conn, $id);
             $sql = "SELECT * FROM people WHERE id=$id";
             $result = mysqli_query($conn, $sql);
-            if ($result == false) {
-                throw new Exception("Query failed, SQL: " . $sql . " Error: " . mysqli_error($conn));
-            }
+            // if ($result == false) {
+            //     throw new Exception("Query failed, SQL: " . $sql . " Error: " . mysqli_error($conn));
+            // }
             $person = mysqli_fetch_assoc($result);
             return $person; 
         }
@@ -53,17 +53,36 @@
     function showPeopleList() {
         $conn = connectToDatabase();
         
-        $sql = "SELECT * FROM people";
-        $result = mysqli_query($conn, $sql);
-        
-        if (mysqli_num_rows($result) > 0) {
-            // output data of each row
-            while($row = mysqli_fetch_assoc($result)) {  
-                $people[] = $row;                  
+        try {
+            $sql = "SELECT * FROM people";
+            $result = mysqli_query($conn, $sql);
+            
+            if (mysqli_num_rows($result) > 0) {
+                // output data of each row
+                while($row = mysqli_fetch_assoc($result)) {  
+                    $people[] = $row;                  
+                }
             }
-        }       
-        mysqli_close($conn);
-        return $people;
+        }
+        finally {       
+            mysqli_close($conn);
+            return $people;
+        }
+    }
+
+    function updatePerson($person) {
+        $conn = connectToDatabase();
+        try { 
+            $sql = "UPDATE people SET name = '" . $person['name'] . "', birthdate ='" . $person['birthdate'] . "'  WHERE id=" . $person['id'] . "";
+
+            mysqli_query($conn, $sql);
+            if (!mysqli_query($conn, $sql)) {
+                throw new Exception("Query failed, SQL: " . $sql . "Error: " . mysqli_error($conn));
+            }
+        }
+        finally {
+            mysqli_close($conn);
+        }
     }
 
     // function showPeopleCheckbox() {
